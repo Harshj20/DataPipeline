@@ -1,0 +1,10 @@
+{
+    "data": [
+        {
+            "data_path": "./examples/sample_data/sample_openai.jsonl",
+            "format": "jsonl",
+            "styling": "openai_chat",
+            "name": "Sample OpenAI Chat Data"
+        }
+    ]
+}
