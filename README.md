@@ -15,7 +15,7 @@ A scalable Python module for converting between different data formats and chat 
 ## Installation
 
 ```bash
-cd e:/antigravity/data-formatter
+cd DataPipeline
 uv sync
 ```
 
@@ -193,3 +193,4 @@ MIT
 ## Contributing
 
 Contributions welcome! The modular design makes it easy to add new formats, stylings, and transformers.
+
