@@ -18,35 +18,18 @@ class ChatMLStyling(BaseStyling):
     Uses special tokens: <|im_start|>, <|im_end|>
     """
 
+    def get_template_spec(self):
+        """Return ChatML template specification for reverse parsing."""
+        from data_formatter.reverse_parser import CHATML_TEMPLATE
+        return CHATML_TEMPLATE
+
     def to_ir(self, data: Dict[str, Any]) -> DataSample:
-        """Convert from ChatML format to IR."""
+        """Convert from ChatML format to IR using reverse parser."""
         if "text" not in data:
             raise ValueError("ChatML format requires 'text' field")
         
-        # Parse ChatML text into messages
-        text = data["text"]
-        messages = []
-        
-        # Split by <|im_start|> and process each segment
-        segments = text.split("<|im_start|>")[1:]  # Skip first empty segment
-        
-        for segment in segments:
-            if not segment.strip():
-                continue
-            
-            # Split by newline to get role and content
-            parts = segment.split("\n", 1)
-            if len(parts) < 2:
-                continue
-            
-            role = parts[0].strip()
-            # Remove <|im_end|> from content
-            content = parts[1].replace("<|im_end|>", "").strip()
-            
-            messages.append({"role": role, "content": content})
-        
-        # Store as OpenAI-style messages in IR
-        return DataSample(data={"messages": messages})
+        # Use reverse parser for robust parsing
+        return self.reverse_parse(data["text"])
 
     def from_ir(self, sample: DataSample) -> Dict[str, Any]:
         """Convert from IR to ChatML format."""
